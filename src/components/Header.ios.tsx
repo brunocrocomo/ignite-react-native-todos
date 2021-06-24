@@ -1,31 +1,71 @@
 import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 
-export function Header() {
-  return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>to.</Text>
-        <Text style={[styles.headerText, { fontFamily: 'Poppins-SemiBold' }]}>do</Text>
-      </View>
-    </SafeAreaView>
-  )
+import { ThemeButton } from './ThemeButton';
+
+import { Theme } from '../utils/enums';
+
+interface HeaderProps {
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
 }
 
-const styles = StyleSheet.create({
+export function Header({ theme, setTheme }: HeaderProps) {
+  const themedStyles = theme === Theme.light ? lightStyles : darkStyles;
+
+  return (
+    <SafeAreaView style={themedStyles.container}>
+      <View style={themedStyles.header}>
+        <Text style={themedStyles.headerText}>to.</Text>
+        <Text
+          style={[themedStyles.headerText, { fontFamily: 'Poppins-SemiBold' }]}
+        >
+          do
+        </Text>
+        <ThemeButton
+          theme={theme}
+          setTheme={setTheme}
+          style={themedStyles.themeButton}
+        />
+      </View>
+    </SafeAreaView>
+  );
+}
+
+const lightStyles = StyleSheet.create({
   container: {
     backgroundColor: '#273FAD',
   },
   header: {
-    paddingBottom: 44,
+    marginBottom: 44,
     backgroundColor: '#273FAD',
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   headerText: {
     fontSize: 24,
     color: '#FFF',
     fontFamily: 'Poppins-Regular',
-  }
+  },
+  themeButton: { position: 'absolute', right: 8 },
+});
+
+const darkStyles = StyleSheet.create({
+  container: {
+    backgroundColor: '#3E3E3E',
+  },
+  header: {
+    marginBottom: 44,
+    backgroundColor: '#3E3E3E',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  headerText: {
+    fontSize: 24,
+    color: '#E1E1E6',
+    fontFamily: 'Poppins-Regular',
+  },
+  themeButton: { position: 'absolute', right: 8 },
 });
